@@ -36,32 +36,32 @@ class Handler(webapp2.RequestHandler):
     def render(self, template, **kw):
         self.write(self.render_str(template, **kw))
 
-class Art(db.Model):
+class BlogPosts(db.Model):
     title = db.StringProperty(required=True)
-    art = db.TextProperty(required=True)
+    body = db.TextProperty(required=True)
     created = db.DateTimeProperty(auto_now_add = True)
 
 class MainHandler(Handler):
 
-    def render_front(self, title="", art="", error=""):
-        arts = db.GqlQuery("SELECT * FROM Art ORDER BY created DESC")
-        self.render('front.html', title=title, art=art, error=error, arts=arts)
+    def render_base(self, title="", body="", error=""):
+        blogposts = db.GqlQuery("SELECT * FROM BlogPosts ORDER BY created DESC")
+        self.render('base.html', title=title, body=body, error=error, blogposts=blogposts)
 
     def get(self):
-        self.render_front()
+        self.render_base()
 
     def post(self):
         title = self.request.get('title')
-        art = self.request.get('art')
+        body = self.request.get('body')
 
-        if title and art:
-            a = Art(title=title, art=art)
-            a.put()
+        if title and body:
+            b = BlogPosts(title=title, body=body)
+            b.put()
 
             self.redirect('/')
         else:
-            error = "Please enter both a title and art!"
-            self.render_front(title, art, error)
+            error = "Please enter both a title and body!"
+            self.render_base(title, body, error)
 
 app = webapp2.WSGIApplication([
     ('/', MainHandler)

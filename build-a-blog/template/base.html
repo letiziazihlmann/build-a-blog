@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <title>/ascii-chan/</title>
+        <title>Build A Blog</title>
     </head>
 
     <style type="text/css">
@@ -57,7 +57,31 @@
             }
     </style>
 
+    <body>
+        <h1>
+            Build-A-Blog
+        </h1>
+        <form method='post'>
+            <lable>
+                <div>Title:</div>
+                <input name='title' type='text' value="{{title}}"/>
+            </lable>
+            <lable>
+                <div>Body:</div>
+                <textarea name='body'>{{body}}</textarea>
+            </lable>
+            <div class = 'error'>{{error}}</div>
+            <input type='submit'>
+        </form>
+        <hr>
 
+        {%for post in blogposts%}
+        <div class='blog'>
+            <div class="blog-title">{{post.title}}</div>
+            <pre class = "blog-body">{{post.body}}</pre>
+        </div>
+        {% endfor %}
 
     </body>
+
 </html>
