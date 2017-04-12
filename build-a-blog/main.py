@@ -43,9 +43,19 @@ class BlogPosts(db.Model):
 
 class MainHandler(Handler):
 
+    def render_base(self):
+        blogposts = db.GqlQuery("SELECT * FROM BlogPosts ORDER BY created DESC LIMIT 5")
+        self.render('mainpage.html', blogposts=blogposts)
+
+    def get(self):
+        self.render_base()
+
+
+class BlogHandler(Handler):
+
     def render_base(self, title="", body="", error=""):
-        blogposts = db.GqlQuery("SELECT * FROM BlogPosts ORDER BY created DESC")
-        self.render('base.html', title=title, body=body, error=error, blogposts=blogposts)
+
+        self.render('newpost.html', title=title, body=body, error=error)
 
     def get(self):
         self.render_base()
@@ -58,11 +68,13 @@ class MainHandler(Handler):
             b = BlogPosts(title=title, body=body)
             b.put()
 
-            self.redirect('/')
+            self.redirect('/blog')
         else:
             error = "Please enter both a title and body!"
             self.render_base(title, body, error)
 
+
 app = webapp2.WSGIApplication([
-    ('/', MainHandler)
+    ('/blog', MainHandler),
+    ('/newpost', BlogHandler)
 ], debug=True)

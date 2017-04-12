@@ -61,26 +61,11 @@
         <h1>
             Build-A-Blog
         </h1>
-        <form method='post'>
-            <lable>
-                <div>Title:</div>
-                <input name='title' type='text' value="{{title}}"/>
-            </lable>
-            <lable>
-                <div>Body:</div>
-                <textarea name='body'>{{body}}</textarea>
-            </lable>
-            <div class = 'error'>{{error}}</div>
-            <input type='submit'>
-        </form>
-        <hr>
+        <a href='/blog'>Main Page</a>
+        <a href='/newpost'>New Post</a>
 
-        {%for post in blogposts%}
-        <div class='blog'>
-            <div class="blog-title">{{post.title}}</div>
-            <pre class = "blog-body">{{post.body}}</pre>
-        </div>
-        {% endfor %}
+        {% block content %}
+        {% endblock %}
 
     </body>
 
