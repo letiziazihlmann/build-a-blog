@@ -6,7 +6,7 @@
 <form>
     {%for post in blogposts%}
     <div class='blog'>
-        <div class="blog-title">{{post.title}}</div>
+        <div class="blog-title"><a href="/blog/{{post.key().id()}}">{{post.title}}</a></div>
         <pre class = "blog-body">{{post.body}}</pre>
     </div>
     {% endfor %}

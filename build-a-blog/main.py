@@ -73,8 +73,18 @@ class BlogHandler(Handler):
             error = "Please enter both a title and body!"
             self.render_base(title, body, error)
 
+class ViewPostHandler(Handler):
+
+    def get(self, id):
+        posts = BlogPosts.get_by_id(int(id))
+        if posts:
+            self.render('post.html', posts=posts)
+        else:
+            self.write("Sorry, no post!")
+
 
 app = webapp2.WSGIApplication([
     ('/blog', MainHandler),
-    ('/newpost', BlogHandler)
+    ('/newpost', BlogHandler),
+    webapp2.Route('/blog/<id:\d+>', ViewPostHandler)
 ], debug=True)
